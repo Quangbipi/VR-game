@@ -3,6 +3,7 @@ using System.Collections;
 
 public class EnemyHelper : MonoBehaviour
 {
+    //khai báo dame và player
     public GameObject Player;
     public int Damage = 10;
 
@@ -10,7 +11,7 @@ public class EnemyHelper : MonoBehaviour
     GameHelper _gameHelper;
 
     float _lastAttackTime;
-    float _lastAttackSpeed = 2;
+    float _lastAttackSpeed = 2; //thoi gian moi tan tan cong
 
     // Use this for initialization
     void Start()
@@ -34,6 +35,7 @@ public class EnemyHelper : MonoBehaviour
             Player.transform.position) < 4 &&
             Time.time > _lastAttackTime + _lastAttackSpeed)
         {
+            //gọi animation
             if (GetComponent<Animator>())
                 GetComponent<Animator>().SetTrigger("Attack");
 

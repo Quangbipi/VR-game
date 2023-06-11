@@ -6,16 +6,16 @@ using System;
 public class GameHelper : MonoBehaviour
 {
     public GameObject GameMenu;
-    public GameObject Weapon;
+    public GameObject Weapon; // sung
 
-    public SpawnHelper[] SpawnPoints;
-
+    public SpawnHelper[] SpawnPoints; // cac diem spawn
+    //text hien dau game
     public TextMesh StartGameText;
     public TextMesh ScoreText;
     public TextMesh BestScoreText;
 
     public bool IsStartedGame { get; set; }
-
+    // hp player
     private int _playerMaxHealth = 100;
     public int PlayerMaxHealth
     {
@@ -36,7 +36,7 @@ public class GameHelper : MonoBehaviour
 
 
     public int[] Levels;
-    public int[] LevelsHealth;
+    public int[] LevelsHealth;//hp max moi level
 
     int _level;
     int _score;
@@ -62,18 +62,18 @@ public class GameHelper : MonoBehaviour
         _currentScore = 0;
         StartNewLevel();
     }
-
+    // kiem tr ng choi da sang level moi chua
     void Timer()
     {
         if (!IsStartedGame)
             return;
 
-        ///Победа
+        ///
         if (Levels[_level] == DeadEnemyes)
         {
             _level++;
 
-            /// Прошел все уровни
+            /// 
             if (Levels.Length == _level)
             {
                 EndGame();
@@ -113,7 +113,7 @@ public class GameHelper : MonoBehaviour
         IsStartedGame = false;
         GameMenu.SetActive(true);
     }
-
+    // ng chs nhan dame
     internal void PlayerTakeDamage(int damage)
     {
         if (!IsStartedGame)
@@ -131,11 +131,11 @@ public class GameHelper : MonoBehaviour
     private void StartNewLevel()
     {
 
-        /// Запускаем поинты
+        /// spawn zombie
         for (int i = 0; i < SpawnPoints.Length; i++)
             SpawnPoints[i].StartSpawn();
 
-        /// Добавляем зомбиков
+        /// spawn ngau nhien zombie
         for (int i = 0; i < Levels[_level]; i++)
         {
             int index = UnityEngine.Random.Range(0, SpawnPoints.Length);

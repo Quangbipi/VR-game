@@ -5,26 +5,26 @@ namespace CompleteProject
 {
     public class PlayerShooting : MonoBehaviour
     {
-        public int damagePerShot = 20;                  // The damage inflicted by each bullet.
-        public float timeBetweenBullets = 0.15f;        // The time between each shot.
-        public float range = 100f;                      // The distance the gun can fire.
+        public int damagePerShot = 20;                  // sat thuong
+        public float timeBetweenBullets = 0.15f;        // thoi gian 1 lan ban
+        public float range = 100f;                      // tầm bắn
 
 
         float timer;                                    // A timer to determine when to fire.
-        Ray shootRay;                                   // A ray from the gun end forwards.
-        RaycastHit shootHit;                            // A raycast hit to get information about what was hit.
-        int shootableMask;                              // A layer mask so the raycast only hits things on the shootable layer.
-        ParticleSystem gunParticles;                    // Reference to the particle system.
-        LineRenderer gunLine;                           // Reference to the line renderer.
-        AudioSource gunAudio;                           // Reference to the audio source.
-        Light gunLight;                                 // Reference to the light component.
+        Ray shootRay;                                   // 1 tia raycast
+        RaycastHit shootHit;                            // nhan thong tin ve doi tuong ban trúng
+        int shootableMask;                              // 
+        ParticleSystem gunParticles;                    // hieu ung ban
+        LineRenderer gunLine;                           // ve duong dan cua dan
+        AudioSource gunAudio;                           // am thanh ban
+        Light gunLight;                                 // 
         public Light faceLight;								// Duh
-        float effectsDisplayTime = 0.2f;                // The proportion of the timeBetweenBullets that the effects will display for.
+        float effectsDisplayTime = 0.2f;                //
 
 
         void Awake()
         {
-            // Create a layer mask for the Shootable layer.
+            // 
             shootableMask = LayerMask.GetMask("Shootable");
 
             // Set up the references.
@@ -38,7 +38,7 @@ namespace CompleteProject
 
         void Update()
         {
-            // Add the time since Update was last called to the timer.
+            // thoi gian sau moi khung hinh
             timer += Time.deltaTime;
 
 #if !MOBILE_INPUT
@@ -49,14 +49,14 @@ namespace CompleteProject
                 //  Shoot ();
             }
 #else
-            // If there is input on the shoot direction stick and it's time to fire...
+            // neu co su di chuyen chuot
             if ((CrossPlatformInputManager.GetAxisRaw("Mouse X") != 0 || CrossPlatformInputManager.GetAxisRaw("Mouse Y") != 0) && timer >= timeBetweenBullets)
             {
                 // ... shoot the gun
                 Shoot();
             }
 #endif
-            // If the timer has exceeded the proportion of timeBetweenBullets that the effects should be displayed for...
+            // turn off efect
             if (timer >= timeBetweenBullets * effectsDisplayTime)
             {
                 // ... disable the effects.
@@ -76,51 +76,52 @@ namespace CompleteProject
 
         public void Shoot()
         {
+            // check thoi gian giua cac lan ban va game co bị pause
             if (timer >= timeBetweenBullets && Time.timeScale != 0)
             {
                 // Reset the timer.
                 timer = 0f;
 
-                // Play the gun shot audioclip.
+                // turn on sound effect
                 gunAudio.Play();
 
-                // Enable the lights.
+                // anh sang sung
                 gunLight.enabled = true;
                 faceLight.enabled = true;
 
-                // Stop the particles from playing if they were, then start the particles.
+                // Hieu ung sung
                 gunParticles.Stop();
                 gunParticles.Play();
 
-                // Enable the line renderer and set it's first position to be the end of the gun.
+                // ve duong dan
                 gunLine.enabled = true;
                 gunLine.SetPosition(0, transform.position);
 
-                // Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
+                // thiet lap diem bat dau va ket thuc cua tia raycast
                 shootRay.origin = transform.position;
-                shootRay.direction = transform.forward;
+                shootRay.direction = transform.forward; // huong ve phia trc cua sung
 
-                // Perform the raycast against gameobjects on the shootable layer and if it hits something...
+                // xu ly va cham voi zombie
                 if (Physics.Raycast(shootRay, out shootHit, range)) //, shootableMask
                 {
-                    // Try and find an EnemyHealth script on the gameobject hit.
+                    // lay ra doi tuong ma tia raycast cham phai
                     HealthHelper enemyHealth = 
                         shootHit.collider.GetComponent<HealthHelper>();
 
-                    // If the EnemyHealth component exist...
+                    // ktra phai la zombie thi tru hp
                     if (enemyHealth != null)
                     {
-                        // ... the enemy should take damage.
+                        //zombie do nhan hp
                         enemyHealth.TakeDamage(damagePerShot, shootHit.point);
                     }
 
-                    // Set the second position of the line renderer to the point the raycast hit.
+                    // thiet lap vi tri ket thuc cua raycast 
                     gunLine.SetPosition(1, shootHit.point);
                 }
-                // If the raycast didn't hit anything on the shootable layer...
+                // Neu raycast khong cham vao zombie
                 else
                 {
-                    // ... set the second position of the line renderer to the fullest extent of the gun's range.
+                    // do dai tia raycast 
                     gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
                 }
             }

@@ -4,6 +4,8 @@ using CompleteProject;
 
 public class CenterHelper : MonoBehaviour
 {
+
+    //khai bao object sung
     public WeaponHelper MyWeapon;
     GameHelper _gameHelper;
     // Use this for initialization

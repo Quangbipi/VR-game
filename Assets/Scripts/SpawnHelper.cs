@@ -48,6 +48,7 @@ public class SpawnHelper : MonoBehaviour
         SpawnModel deleteModel = null;
         for (int i = 0; i < _spawnModels.Count; i++)
         {
+            //spawn zombie
             if (_spawnModels[i].SpawnTime < Time.time - _startTime)
             {
                 GameObject zombie =

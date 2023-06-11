@@ -13,11 +13,14 @@ public class EyeTarget : MonoBehaviour
     }
 
     // Update is called once per frame
+    // draw the reticle +
     void OnGUI()
     {
-        int size = 12;
+        int size = 42;
         float posX = _camera.pixelWidth / 2 - size / 4;
         float posY = _camera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posX, posY, size, size), "+");
+        GUIStyle style = new GUIStyle(GUI.skin.label);
+        style.normal.textColor = Color.red;
+        GUI.Label(new Rect(posX, posY, size, size), "+", style);
     }
 }

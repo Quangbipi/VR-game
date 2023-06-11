@@ -4,8 +4,9 @@ using System;
 
 public class HealthHelper : MonoBehaviour
 {
+    
     public GameObject BoodPrefab;
-
+    // hp default
     public float MaxHealth = 100;
     public float Health = 100;
 
@@ -30,8 +31,9 @@ public class HealthHelper : MonoBehaviour
 
     internal void TakeDamage(int damagePerShot, Vector3 point)
     {
+        //hp
         float health = Health - damagePerShot;
-
+        // turn on effect and destroy sau 1s
         #region Hit
         GameObject hitEffect = Instantiate(BoodPrefab);
         hitEffect.transform.position = point;
@@ -40,7 +42,7 @@ public class HealthHelper : MonoBehaviour
 
         if (IsDead)
             return;
-
+        // khi zombie bi tieu diet
         if (health <= 0)
         {
             Health = 0;
